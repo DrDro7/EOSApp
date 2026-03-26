@@ -82,7 +82,7 @@ const ARTICLES: KnowledgeArticle[] = [
   },
 ];
 
-const CATEGORIES = [...new Set(ARTICLES.map((a) => a.category))];
+const CATEGORIES = Array.from(new Set(ARTICLES.map((a) => a.category)));
 
 export default function KnowledgePage() {
   const [search, setSearch] = useState("");
