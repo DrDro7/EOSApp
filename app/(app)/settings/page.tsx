@@ -87,7 +87,7 @@ export default function SettingsPage() {
             <CardContent className="space-y-4">
               <div className="flex items-center gap-4">
                 <Avatar className="h-16 w-16">
-                  <AvatarImage src={user?.imageUrl} />
+                  <AvatarImage src={user?.image ?? undefined} />
                   <AvatarFallback>
                     {getInitials(user?.name ?? user?.email ?? "U")}
                   </AvatarFallback>

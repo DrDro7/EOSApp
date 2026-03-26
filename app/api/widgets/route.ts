@@ -57,7 +57,10 @@ export async function POST(req: Request) {
     });
     if (!dashboard) return NextResponse.json({ error: "Dashboard not found" }, { status: 404 });
 
-    const widget = await db.widget.create({ data: parsed.data });
+    const { config, position, ...rest } = parsed.data;
+    const widget = await db.widget.create({
+      data: { ...rest, config: config as object, position: position as object },
+    });
     return NextResponse.json(widget, { status: 201 });
   } catch (err) {
     console.error("POST /api/widgets", err);

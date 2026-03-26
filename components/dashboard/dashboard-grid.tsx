@@ -62,7 +62,7 @@ export function DashboardGrid({
     const widgetB = widgets[newIndex];
 
     await Promise.all([
-      updateWidget.mutateAsync({ ...widgetA, position: widgetB.position }),
+      updateWidget.mutateAsync({ position: widgetB.position }),
       // Patching by id via route requires separate mutations;
       // here we update the moved widget's y coordinate to reflect new order
     ]);

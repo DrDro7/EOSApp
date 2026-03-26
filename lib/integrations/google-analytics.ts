@@ -114,7 +114,7 @@ export async function getGADailySessions(
   return (response.data.rows ?? []).map((row) => ({
     label: row.dimensionValues?.[0]?.value ?? "",
     value: Number(row.metricValues?.[0]?.value ?? 0),
-    date: row.dimensionValues?.[0]?.value,
+    date: row.dimensionValues?.[0]?.value ?? undefined,
   }));
 }
 
@@ -143,7 +143,7 @@ export async function getGATrafficSources(
       dimensions: [{ name: "sessionDefaultChannelGroup" }],
       metrics: [{ name: "sessions" }],
       orderBys: [{ metric: { metricName: "sessions" }, desc: true }],
-      limit: 8,
+      limit: "8",
     },
   });
 

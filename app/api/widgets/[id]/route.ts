@@ -36,7 +36,15 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
     const parsed = updateWidgetSchema.safeParse(body);
     if (!parsed.success) return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
 
-    const updated = await db.widget.update({ where: { id: params.id }, data: parsed.data });
+    const { config, position, ...rest } = parsed.data;
+    const updated = await db.widget.update({
+      where: { id: params.id },
+      data: {
+        ...rest,
+        ...(config !== undefined && { config: config as object }),
+        ...(position !== undefined && { position: position as object }),
+      },
+    });
     return NextResponse.json(updated);
   } catch (err) {
     console.error("PATCH /api/widgets/[id]", err);
