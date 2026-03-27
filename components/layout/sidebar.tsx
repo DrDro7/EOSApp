@@ -157,67 +157,77 @@ export function Sidebar() {
           )}
         </ScrollArea>
 
-        {/* Footer — user menu */}
+        {/* Footer — user menu + controls */}
         <div className="border-t p-3 flex items-center justify-between gap-2">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <button className="flex items-center gap-2 min-w-0 hover:opacity-80 transition-opacity">
-                <Avatar className="h-8 w-8 flex-shrink-0">
-                  <AvatarImage src={user?.image ?? undefined} />
-                  <AvatarFallback className="text-xs">
-                    {getInitials(user?.name ?? user?.email ?? "U")}
-                  </AvatarFallback>
-                </Avatar>
-                {!collapsed && (
-                  <span className="text-sm text-sidebar-foreground truncate">
-                    {user?.name ?? user?.email}
-                  </span>
-                )}
-              </button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" side="top" className="w-48">
-              <div className="px-2 py-1.5">
-                <p className="text-sm font-medium truncate">{user?.name}</p>
-                <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
-              </div>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem
-                className="text-destructive cursor-pointer"
-                onClick={() => signOut({ callbackUrl: "/sign-in" })}
-              >
-                <LogOut className="h-4 w-4 mr-2" />
-                Sign out
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          {collapsed ? (
+            /* Collapsed: single centered expand button */
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8 mx-auto"
+              onClick={() => setCollapsed(false)}
+              title="Expand sidebar"
+            >
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+          ) : (
+            <>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button className="flex items-center gap-2 min-w-0 hover:opacity-80 transition-opacity">
+                    <Avatar className="h-8 w-8 flex-shrink-0">
+                      <AvatarImage src={user?.image ?? undefined} />
+                      <AvatarFallback className="text-xs">
+                        {getInitials(user?.name ?? user?.email ?? "U")}
+                      </AvatarFallback>
+                    </Avatar>
+                    <span className="text-sm text-sidebar-foreground truncate">
+                      {user?.name ?? user?.email}
+                    </span>
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start" side="top" className="w-48">
+                  <div className="px-2 py-1.5">
+                    <p className="text-sm font-medium truncate">{user?.name}</p>
+                    <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
+                  </div>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    className="text-destructive cursor-pointer"
+                    onClick={() => signOut({ callbackUrl: "/sign-in" })}
+                  >
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Sign out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
 
-          <div className="flex items-center gap-1">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-8 w-8 flex-shrink-0"
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-            >
-              {theme === "dark" ? (
-                <Sun className="h-4 w-4" />
-              ) : (
-                <Moon className="h-4 w-4" />
-              )}
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-8 w-8 flex-shrink-0"
-              onClick={() => setCollapsed(!collapsed)}
-            >
-              {collapsed ? (
-                <ChevronRight className="h-4 w-4" />
-              ) : (
-                <ChevronLeft className="h-4 w-4" />
-              )}
-            </Button>
-          </div>
+              <div className="flex items-center gap-1 flex-shrink-0">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8"
+                  onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                  title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+                >
+                  {theme === "dark" ? (
+                    <Sun className="h-4 w-4" />
+                  ) : (
+                    <Moon className="h-4 w-4" />
+                  )}
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8"
+                  onClick={() => setCollapsed(true)}
+                  title="Collapse sidebar"
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                </Button>
+              </div>
+            </>
+          )}
         </div>
       </aside>
 
